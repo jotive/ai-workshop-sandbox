@@ -39,7 +39,7 @@ class FakeTicketRepository:
         return len(self._tickets)
 
     def count_open(self) -> int:
-        return len(self._tickets)
+        return sum(1 for ticket in self._tickets.values() if ticket["status"] == "open")
 
     def count_closed(self) -> int:
         return sum(1 for ticket in self._tickets.values() if ticket["status"] == "closed")

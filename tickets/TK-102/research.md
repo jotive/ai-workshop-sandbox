@@ -4,12 +4,16 @@
 
 ## Qué se pidió
 
-<Una frase, en las palabras de quien pidió el ticket.>
+"El dashboard de `/stats` dice que tengo 8 tickets abiertos pero en el listado solo veo 3 sin cerrar — algo está mal en el conteo."
 
 ## Qué existe hoy (relevante a este cambio)
 
-<Archivos, funciones, tablas — con path:línea cuando aplica.>
+- `GET /stats` (`api/routes/stats.py`) devuelve `TicketController.stats()` → `TicketService.get_stats()` (`api/services/ticket_service.py`), que arma un `StatsResponse(total=..., open=..., closed=...)`.
+- `TicketRepository.count_total()` (`api/repositories/ticket_repository.py`): `SELECT COUNT(*) FROM tickets` — correcto, cuenta todo.
+- `TicketRepository.count_closed()`: `SELECT COUNT(*) FROM tickets WHERE status = 'closed'` — correcto.
+- `TicketRepository.count_open()`: **`SELECT COUNT(*) FROM tickets`** — la misma query que `count_total()`, sin filtrar por `status = 'open'`. Este es el bug: nunca descuenta los tickets cerrados, así que `open` siempre es igual a `total`.
+- No hay ningún test que cubra `count_open()` — ni en `tests/unit/test_ticket_repository.py` ni en `tests/integration/test_tickets_api.py` — por eso el bug pasó a `main` sin que la suite lo agarrara.
 
 ## Preguntas abiertas / [unknown]
 
-<Todo lo que no se verificó contra la fuente real (doc oficial, código, no memoria del modelo).>
+- Ninguna — el bug es reproducible leyendo el código, no depende de datos externos ni de configuración.

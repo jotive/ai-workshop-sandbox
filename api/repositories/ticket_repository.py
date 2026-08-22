@@ -44,7 +44,10 @@ class TicketRepository:
         return row["count"]
 
     def count_open(self) -> int:
-        row = self._connection.execute("SELECT COUNT(*) AS count FROM tickets").fetchone()
+        row = self._connection.execute(
+            "SELECT COUNT(*) AS count FROM tickets WHERE status = ?",
+            (TicketStatus.OPEN.value,),
+        ).fetchone()
         return row["count"]
 
     def count_closed(self) -> int:

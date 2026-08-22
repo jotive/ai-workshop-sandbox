@@ -54,3 +54,11 @@ def test_count_closed_only_counts_closed_tickets(repository: TicketRepository) -
 
     assert repository.count_closed() == 1
     assert repository.count_total() == 2
+
+
+def test_count_open_excludes_closed_tickets(repository: TicketRepository) -> None:
+    repository.create("Stays open", "", TicketPriority.LOW)
+    to_close = repository.create("Gets closed", "", TicketPriority.LOW)
+    repository.close(to_close["id"])
+
+    assert repository.count_open() == 1

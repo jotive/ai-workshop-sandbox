@@ -63,3 +63,15 @@ def test_stats_reports_total(client, auth_headers) -> None:
     stats = response.json()
 
     assert stats["total"] == 2
+
+
+def test_stats_discounts_closed_tickets_from_open_count(client, auth_headers) -> None:
+    stays_open = client.post("/tickets", json={"title": "Stays open"}, headers=auth_headers).json()
+    gets_closed = client.post("/tickets", json={"title": "Gets closed"}, headers=auth_headers).json()
+    client.post(f"/tickets/{gets_closed['id']}/close", headers=auth_headers)
+
+    stats = client.get("/stats", headers=auth_headers).json()
+
+    assert stats["total"] == 2
+    assert stats["open"] == 1
+    assert stats["closed"] == 1
