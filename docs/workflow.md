@@ -7,4 +7,4 @@
 > - Convención de ramas / cuándo hacer commit o PR → `docs/handbook/git-workflow.md`
 > - Proceso de "deploy" (no hay deploy real en este sandbox) → `docs/handbook/releases.md`
 >
-> Ver `HANDBOOK.md` en la raíz para el índice completo.
+> Ver `docs/HANDBOOK.md` para el índice completo.

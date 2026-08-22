@@ -4,8 +4,8 @@
 
 ## 0. Índice rápido
 
-- `ROADMAP.md` — ahora · siguiente · después (con bloqueador) · hecho.
-- `HANDBOOK.md` — índice a `docs/handbook/*` (contenido operativo bajo demanda).
+- `docs/ROADMAP.md` — ahora · siguiente · después (con bloqueador) · hecho.
+- `docs/HANDBOOK.md` — índice a `docs/handbook/*` (contenido operativo bajo demanda).
 - `docs/onboarding.md` — cómo arranca alguien nuevo (humano o agente) en este repo.
 
 ## 1. Memoria Operacional Persistente (`docs/`)
@@ -16,7 +16,7 @@ Toda la especificación técnica y de negocio vive en `docs/` en Markdown:
 - **Convenciones (`docs/conventions.md`)**: Reglas de estilo, naming semántico, patrones aceptados y estrategia de tests.
 - **Decisiones / ADRs (`docs/adr/`)**: Decisiones de arquitectura aceptadas, razones, opciones descartadas y estado.
 - **Glosario (`docs/glossary.md`)**: Términos del dominio de tickets usados en este repo.
-- **Handbook (`docs/handbook/`)**: contenido operativo que se carga bajo demanda — `development.md`, `git-workflow.md`, `testing.md`, `releases.md`, `errors.md`, `ai-agents.md`. Índice en `HANDBOOK.md` (raíz). `docs/workflow.md` y `docs/errors.md` quedaron como stubs de deprecación apuntando acá.
+- **Handbook (`docs/handbook/`)**: contenido operativo que se carga bajo demanda — `development.md`, `git-workflow.md`, `testing.md`, `releases.md`, `errors.md`, `ai-agents.md`. Índice en `docs/HANDBOOK.md`. `docs/workflow.md` y `docs/errors.md` quedaron como stubs de deprecación apuntando acá.
 
 ## 2. Protocolo de Trabajo por Change (RPI + SDD, con OpenSpec real)
 

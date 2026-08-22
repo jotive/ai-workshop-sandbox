@@ -49,8 +49,8 @@ Ver `docs/architecture.md` para el detalle completo del stack y las capas (`rout
 
 ## Documentación
 
-- `ROADMAP.md` — ahora · siguiente · después (con bloqueador) · hecho.
-- `HANDBOOK.md` — índice a `docs/handbook/` (desarrollo, git, testing, releases, errores, agentes de IA — contenido bajo demanda).
+- `docs/ROADMAP.md` — ahora · siguiente · después (con bloqueador) · hecho.
+- `docs/HANDBOOK.md` — índice a `docs/handbook/` (desarrollo, git, testing, releases, errores, agentes de IA — contenido bajo demanda).
 - `docs/onboarding.md` — cómo arranca alguien nuevo, humano o agente.
 - `docs/adr/` — decisiones de arquitectura aceptadas.
 

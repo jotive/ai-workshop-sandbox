@@ -20,4 +20,4 @@
 
 - TK-101 (filtro por prioridad en el listado) — implementado, mergeado en `main`, archivado en `openspec/changes/archive/2026-08-22-tk-101-priority-filter/`.
 - Migración de `tickets/<ID>/` a OpenSpec real (`@fission-ai/openspec`) — ver `openspec/changes/README.md` y `tickets/README.md`.
-- Reestructuración de `docs/` al estándar de handbook (`docs/handbook/`, `docs/onboarding.md`, `HANDBOOK.md`, `ROADMAP.md`).
+- Reestructuración de `docs/` al estándar de handbook (`docs/handbook/`, `docs/onboarding.md`, `docs/HANDBOOK.md`, `docs/ROADMAP.md`).

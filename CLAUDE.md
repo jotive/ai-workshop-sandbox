@@ -13,8 +13,8 @@ Mini sistema de tickets internos (crear, listar, filtrar, cerrar) con API en Fas
 - **Decisions** (`docs/adr/`): ADRs con decisiones aceptadas, razones, opciones descartadas y estado.
 - **Glossary** (`docs/glossary.md`): Términos de dominio de tickets usados en este repo.
 - **Onboarding** (`docs/onboarding.md`): cómo arranca alguien nuevo (humano o agente) en este repo.
-- **Handbook** (`docs/handbook/`): contenido operativo bajo demanda — development, git-workflow, testing, releases, errors, ai-agents. Índice en `HANDBOOK.md` (raíz). `docs/workflow.md` y `docs/errors.md` son stubs de deprecación que apuntan acá.
-- **Roadmap** (`ROADMAP.md`, raíz): ahora · siguiente · después (con bloqueador) · hecho.
+- **Handbook** (`docs/handbook/`): contenido operativo bajo demanda — development, git-workflow, testing, releases, errors, ai-agents. Índice en `docs/HANDBOOK.md`. `docs/workflow.md` y `docs/errors.md` son stubs de deprecación que apuntan acá.
+- **Roadmap** (`docs/ROADMAP.md`): ahora · siguiente · después (con bloqueador) · hecho.
 
 ## 3. Reglas Duras de Ejecución
 
