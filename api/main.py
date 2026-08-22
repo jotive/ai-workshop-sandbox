@@ -1,4 +1,6 @@
 import logging
+from contextlib import asynccontextmanager
+from typing import AsyncIterator
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +15,15 @@ from api.services.ticket_service import TicketNotFoundError
 configure_logging(settings.log_level)
 logger = logging.getLogger("tickets-api")
 
-app = FastAPI(title="Tickets API", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    init_db()
+    logger.info("startup complete")
+    yield
+
+
+app = FastAPI(title="Tickets API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -21,12 +31,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-def on_startup() -> None:
-    init_db()
-    logger.info("startup complete")
 
 
 @app.exception_handler(TicketNotFoundError)
