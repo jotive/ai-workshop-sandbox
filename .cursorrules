@@ -1,0 +1,8 @@
+# Cursor AI Rules Bridge
+# Lee las reglas universales del proyecto en AGENTS.md y docs/
+
+- Consulta `AGENTS.md` para las reglas de arquitectura del proyecto.
+- Consulta `docs/architecture.md` para el stack y lo que NO existe.
+- Consulta `docs/conventions.md` para convenciones de código y naming.
+- Consulta `docs/adr/` para decisiones congeladas de arquitectura.
+- Consulta `docs/errors.md` para soluciones a errores conocidos.

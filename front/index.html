@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tickets</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --border: #d8dce1;
+    --muted: #6b7280;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --accent: #2563eb;
+    --danger: #dc2626;
+    --high: #dc2626;
+    --medium: #d97706;
+    --low: #16a34a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 2rem;
+    background: var(--bg);
+    color: #1f2937;
+  }
+  h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+  .subtitle { color: var(--muted); margin-top: 0; margin-bottom: 1.5rem; font-size: 0.9rem; }
+  .layout { display: grid; grid-template-columns: 340px 1fr; gap: 1.5rem; max-width: 1100px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  .card + .card { margin-top: 1.5rem; }
+  label { display: block; font-size: 0.85rem; margin-bottom: 0.3rem; color: var(--muted); }
+  input, select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 0.9rem;
+    font-family: inherit;
+  }
+  button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.55rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  button.secondary { background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 0.3rem 0.6rem; font-size: 0.8rem; }
+  .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .stats { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--muted); }
+  .ticket {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.9rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+  }
+  .ticket.closed { opacity: 0.55; }
+  .ticket-title { font-weight: 600; margin-bottom: 0.2rem; }
+  .ticket-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.4rem; }
+  .badge { display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.5rem; border-radius: 999px; color: white; margin-right: 0.4rem; }
+  .badge.high { background: var(--high); }
+  .badge.medium { background: var(--medium); }
+  .badge.low { background: var(--low); }
+  .badge.status-open { background: #2563eb; }
+  .badge.status-closed { background: #6b7280; }
+  #error-banner { display: none; background: #fee2e2; color: #991b1b; padding: 0.6rem 1rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<h1>Tickets internos</h1>
+<p class="subtitle">Sandbox de práctica — sin autenticación de usuarios, solo una API key compartida.</p>
+
+<div id="error-banner"></div>
+
+<div class="layout">
+  <div>
+    <div class="card">
+      <label for="api-key">API key</label>
+      <input id="api-key" type="text" placeholder="dev-local-key" />
+
+      <label for="api-base">API base URL</label>
+      <input id="api-base" type="text" placeholder="http://localhost:8000" />
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Nuevo ticket</h3>
+      <form id="create-form">
+        <label for="title">Título</label>
+        <input id="title" type="text" required maxlength="200" />
+
+        <label for="description">Descripción</label>
+        <textarea id="description" rows="3" maxlength="2000"></textarea>
+
+        <label for="priority">Prioridad</label>
+        <select id="priority">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+
+        <button type="submit">Crear ticket</button>
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <div class="card">
+      <div class="toolbar">
+        <div>
+          <label for="filter-priority" style="margin-bottom: 0.2rem;">Filtrar por prioridad</label>
+          <select id="filter-priority" style="margin-bottom: 0;">
+            <option value="all">Todas</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div class="stats" id="stats">total: — · abiertos: — · cerrados: —</div>
+      </div>
+      <div id="ticket-list">Cargando...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  function apiBase() {
+    return ($("api-base").value || "http://localhost:8000").replace(/\/$/, "");
+  }
+
+  function apiKey() {
+    return $("api-key").value || "dev-local-key";
+  }
+
+  function restoreSettings() {
+    $("api-base").value = localStorage.getItem("tickets.apiBase") || "http://localhost:8000";
+    $("api-key").value = localStorage.getItem("tickets.apiKey") || "dev-local-key";
+  }
+
+  function persistSettings() {
+    localStorage.setItem("tickets.apiBase", $("api-base").value);
+    localStorage.setItem("tickets.apiKey", $("api-key").value);
+  }
+
+  async function apiFetch(path, options = {}) {
+    const response = await fetch(`${apiBase()}${path}`, {
+      ...options,
+      headers: {
+        "X-API-Key": apiKey(),
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+    });
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      throw new Error(body.detail || `Request failed (${response.status})`);
+    }
+    return response.status === 204 ? null : response.json();
+  }
+
+  function showError(message) {
+    const banner = $("error-banner");
+    banner.textContent = message;
+    banner.style.display = "block";
+  }
+
+  function hideError() {
+    $("error-banner").style.display = "none";
+  }
+
+  function renderTicket(ticket) {
+    const closed = ticket.status === "closed";
+    const wrapper = document.createElement("div");
+    wrapper.className = `ticket${closed ? " closed" : ""}`;
+    wrapper.innerHTML = `
+      <div>
+        <div class="ticket-title">#${ticket.id} — ${ticket.title}</div>
+        <div class="ticket-desc">${ticket.description || ""}</div>
+        <span class="badge ${ticket.priority}">${ticket.priority}</span>
+        <span class="badge status-${ticket.status}">${ticket.status}</span>
+      </div>
+    `;
+    if (!closed) {
+      const closeButton = document.createElement("button");
+      closeButton.textContent = "Cerrar";
+      closeButton.className = "secondary";
+      closeButton.onclick = () => closeTicket(ticket.id);
+      wrapper.appendChild(closeButton);
+    }
+    return wrapper;
+  }
+
+  async function loadTickets() {
+    const priority = $("filter-priority").value;
+    const query = priority === "all" ? "" : `?priority=${priority}`;
+    const tickets = await apiFetch(`/tickets${query}`);
+    const list = $("ticket-list");
+    list.innerHTML = "";
+    if (tickets.length === 0) {
+      list.textContent = "No hay tickets con este filtro.";
+      return;
+    }
+    tickets.forEach((ticket) => list.appendChild(renderTicket(ticket)));
+  }
+
+  async function loadStats() {
+    const stats = await apiFetch("/stats");
+    $("stats").textContent = `total: ${stats.total} · abiertos: ${stats.open} · cerrados: ${stats.closed}`;
+  }
+
+  async function refresh() {
+    hideError();
+    try {
+      await Promise.all([loadTickets(), loadStats()]);
+    } catch (error) {
+      showError(error.message);
+    }
+  }
+
+  async function closeTicket(id) {
+    try {
+      await apiFetch(`/tickets/${id}/close`, { method: "POST" });
+      await refresh();
+    } catch (error) {
+      showError(error.message);
+    }
+  }
+
+  $("create-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    hideError();
+    try {
+      await apiFetch("/tickets", {
+        method: "POST",
+        body: JSON.stringify({
+          title: $("title").value,
+          description: $("description").value,
+          priority: $("priority").value,
+        }),
+      });
+      event.target.reset();
+      await refresh();
+    } catch (error) {
+      showError(error.message);
+    }
+  });
+
+  $("filter-priority").addEventListener("change", refresh);
+  $("api-key").addEventListener("change", () => { persistSettings(); refresh(); });
+  $("api-base").addEventListener("change", () => { persistSettings(); refresh(); });
+
+  restoreSettings();
+  refresh();
+</script>
+
+</body>
+</html>

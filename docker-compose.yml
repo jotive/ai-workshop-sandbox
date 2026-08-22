@@ -1,0 +1,23 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - API_KEY=dev-local-key
+      - DATABASE_PATH=/data/tickets.db
+      - LOG_LEVEL=INFO
+    volumes:
+      - tickets-data:/data
+
+  front:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./front:/usr/share/nginx/html:ro
+    depends_on:
+      - api
+
+volumes:
+  tickets-data:
