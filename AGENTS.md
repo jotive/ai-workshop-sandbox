@@ -2,6 +2,12 @@
 
 > Fuente de verdad de arquitectura e instrucciones para asistentes de código (Claude Code, Codex CLI, Cursor, Gemini, Copilot, Windsurf) sobre `ai-workshop-sandbox`: mini sistema de tickets internos (FastAPI + SQLite + front vanilla).
 
+## 0. Índice rápido
+
+- `ROADMAP.md` — ahora · siguiente · después (con bloqueador) · hecho.
+- `HANDBOOK.md` — índice a `docs/handbook/*` (contenido operativo bajo demanda).
+- `docs/onboarding.md` — cómo arranca alguien nuevo (humano o agente) en este repo.
+
 ## 1. Memoria Operacional Persistente (`docs/`)
 
 Toda la especificación técnica y de negocio vive en `docs/` en Markdown:
@@ -10,15 +16,17 @@ Toda la especificación técnica y de negocio vive en `docs/` en Markdown:
 - **Convenciones (`docs/conventions.md`)**: Reglas de estilo, naming semántico, patrones aceptados y estrategia de tests.
 - **Decisiones / ADRs (`docs/adr/`)**: Decisiones de arquitectura aceptadas, razones, opciones descartadas y estado.
 - **Glosario (`docs/glossary.md`)**: Términos del dominio de tickets usados en este repo.
-- **Workflow (`docs/workflow.md`)**: Preparación de entorno, checklist pre-merge (Definition of Done) y deploy.
-- **Errores (`docs/errors.md`)**: Catálogo de errores conocidos, síntomas, causa raíz y soluciones probadas.
+- **Handbook (`docs/handbook/`)**: contenido operativo que se carga bajo demanda — `development.md`, `git-workflow.md`, `testing.md`, `releases.md`, `errors.md`, `ai-agents.md`. Índice en `HANDBOOK.md` (raíz). `docs/workflow.md` y `docs/errors.md` quedaron como stubs de deprecación apuntando acá.
 
-## 2. Protocolo de Trabajo por Ticket (RPI + SDD)
+## 2. Protocolo de Trabajo por Change (RPI + SDD, con OpenSpec real)
 
-1. **Research**: extraer hallazgos a `tickets/TK-XXX/research.md` antes de escribir código — qué existe hoy, qué toca, qué queda como `[unknown]`.
-2. **Plan (Spec)**: escribir o revisar la spec en `tickets/TK-XXX/plan.md`. Se revisa ANTES de implementar.
-3. **Implement**: implementar contra la spec, verificar diff línea a línea y ejecutar `pytest` en verde.
-4. **Notas**: registrar en `tickets/TK-XXX/notas.md` cualquier decisión que se haya desviado del plan original, y por qué.
+Este repo usa `@fission-ai/openspec` real — la convención vieja en `tickets/<ID>/{research.md,plan.md,notas.md}` fue reemplazada (ver `tickets/README.md`). Detalle completo en `docs/handbook/ai-agents.md`; resumen:
+
+1. **Research**: explorar el problema antes de escribir código — qué existe hoy, qué toca, qué queda como `[unknown]`.
+2. **Plan (Spec)**: `openspec/changes/<ID>/{proposal.md, design.md, tasks.md, specs/}` — se revisan ANTES de implementar.
+3. **Implement**: implementar contra `tasks.md`, verificar diff línea a línea y ejecutar `pytest` en verde.
+4. **Notas**: registrar en `openspec/changes/<ID>/notas.md` (quinto archivo, extensión propia de este repo, NO es parte de OpenSpec) cualquier decisión que se haya desviado del plan original, y por qué.
+5. **Verify**: `openspec validate <ID> --strict` antes de dar el change por terminado. `openspec archive <ID>` al completarlo.
 
 ## 3. Reglas duras de este repo
 

@@ -44,7 +44,7 @@ tests/
 
 Campos en `main` (antes de TK-103): `id`, `title`, `description`, `priority` (`low`/`medium`/`high`), `status` (`open`/`closed`), `created_at`.
 
-`assignee` NO existe todavía en `main` — es el alcance de TK-103, resuelto en la rama `reference/tk-103`.
+`assignee` NO existe todavía en `main` — es el alcance de `openspec/changes/tk-103-assignee/`, resuelto en la rama `reference/tk-103`.
 
 ## 5. Lo que NO existe (Límites Duros contra Alucinaciones)
 

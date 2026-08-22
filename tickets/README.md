@@ -1,20 +1,22 @@
-# tickets/
+# tickets/ (reemplazado por `openspec/changes/`)
 
-Una carpeta por ticket del sistema que ya usa el equipo (Jira, Linear, GitHub Issues — el ID es el que ya existe, no se inventa uno nuevo). Deja traza de lo trabajado sin depender de reconstruir una conversación de chat.
-
-## Cómo usar
-
-1. Copia `_TEMPLATE/` → `tickets/<ID>/` (ej. `tickets/TK-104/`).
-2. `research.md` — lo que el agente encontró en modo solo-lectura, antes de tocar código.
-3. `plan.md` — el plan troceado en pasos verificables, revisado ANTES de implementar (esto es la spec).
-4. `notas.md` — decisiones tomadas en el camino, cosas que cambiaron respecto al plan original y por qué.
-
-## Tickets de este repo
-
-- `TK-101/` — filtro por prioridad en el listado. Ciclo completo ya recorrido y mergeado en `main`.
-- `TK-102/` — bug: `/stats` no descuenta los tickets cerrados del conteo de abiertos. Abierto en `main`, solución de referencia en `reference/tk-102`.
-- `TK-103/` — feature: agregar campo `assignee` al ticket. Abierto en `main`, solución de referencia en `reference/tk-103`.
+> **Esta convención fue reemplazada.** La traza real de trabajo por ticket/change ahora vive en `openspec/changes/<ID>-<descripción>/` — ver `openspec/changes/README.md`.
 
 ## Por qué
 
-Cualquiera en el equipo abre `tickets/<ID>/` y entiende qué se pidió, qué se decidió y qué se hizo — sin preguntarle a quien lo hizo ni desenterrar el chat.
+Antes de este cambio, `tickets/<ID>/{research.md,plan.md,notas.md}` era una convención propia de este repo, sin conexión a ninguna herramienta real de spec-driven development. Se resolvió instalando OpenSpec real (`@fission-ai/openspec`) y migrando la traza de trabajo a `openspec/changes/`.
+
+## Qué se conservó
+
+- `notas.md` — lo único de esta convención que OpenSpec no tiene equivalente. Ahora es el quinto archivo de cada change en `openspec/changes/<ID>/notas.md` (extensión propia de este repo, documentada en `openspec/changes/README.md`).
+- `research.md` y `plan.md` se cubren ahora con los artefactos reales de OpenSpec (`proposal.md`, `design.md`, `specs/`, `tasks.md`), generados con `/opsx:explore` + `/opsx:propose` en vez de copiarse a mano desde `_TEMPLATE/`.
+
+## Dónde quedó cada ticket
+
+- `TK-101/` (filtro por prioridad, ya implementado en `main`) → `openspec/changes/archive/2026-08-22-tk-101-priority-filter/`.
+- `TK-102/` (bug de `/stats`, abierto) → `openspec/changes/tk-102-stats-bug/`.
+- `TK-103/` (campo `assignee`, abierto) → `openspec/changes/tk-103-assignee/`.
+
+## `TK-101/`, `TK-102/`, `TK-103/` y `_TEMPLATE/` se dejan intactas
+
+No se borró nada de esta carpeta — queda como referencia histórica de cómo se veía la convención anterior. Para tickets/changes nuevos, arrancar directamente en `openspec/changes/` (ver `.claude/skills/ticket-scaffold/SKILL.md`, actualizado para generar la estructura nueva).

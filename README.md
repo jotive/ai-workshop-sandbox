@@ -45,10 +45,17 @@ pytest
 
 ## Estructura
 
-Ver `docs/architecture.md` para el detalle completo del stack y las capas (`routes` → `controllers` → `services` → `repositories`). Ver `CLAUDE.md` / `AGENTS.md` para el contexto que consumen los agentes de IA, y `tickets/` para los tickets de práctica de la jornada (`TK-101`, `TK-102`, `TK-103`).
+Ver `docs/architecture.md` para el detalle completo del stack y las capas (`routes` → `controllers` → `services` → `repositories`). Ver `CLAUDE.md` / `AGENTS.md` para el contexto que consumen los agentes de IA, `docs/onboarding.md` para arrancar de cero, y `openspec/changes/` para los changes de práctica de la jornada (`tk-101-priority-filter` archivado, `tk-102-stats-bug` y `tk-103-assignee` abiertos) — reemplaza la vieja carpeta `tickets/` (ver `tickets/README.md`).
+
+## Documentación
+
+- `ROADMAP.md` — ahora · siguiente · después (con bloqueador) · hecho.
+- `HANDBOOK.md` — índice a `docs/handbook/` (desarrollo, git, testing, releases, errores, agentes de IA — contenido bajo demanda).
+- `docs/onboarding.md` — cómo arranca alguien nuevo, humano o agente.
+- `docs/adr/` — decisiones de arquitectura aceptadas.
 
 ## Ramas de este repo
 
-- `main` — proyecto base + TK-101 (filtro por prioridad) ya implementado. TK-102 (bug de `/stats`) y TK-103 (campo `assignee`) quedan abiertos para practicar en vivo.
-- `reference/tk-102`, `reference/tk-103` — soluciones de referencia de esos dos tickets, ya implementadas pero sin mergear a `main`. No mirar antes de intentar el ejercicio.
+- `main` — proyecto base + TK-101 (filtro por prioridad) ya implementado, archivado en `openspec/changes/archive/2026-08-22-tk-101-priority-filter/`. TK-102 (bug de `/stats`) y TK-103 (campo `assignee`) quedan abiertos en `openspec/changes/` para practicar en vivo.
+- `reference/tk-102`, `reference/tk-103` — soluciones de referencia de esos dos changes, ya implementadas pero sin mergear a `main` (cada una con su propio `openspec/changes/archive/` reflejando el estado resuelto). No mirar antes de intentar el ejercicio.
 - `bench-claude`, `bench-codex` — ramas vacías para comparar Claude Code vs Codex CLI resolviendo el mismo ticket en vivo.

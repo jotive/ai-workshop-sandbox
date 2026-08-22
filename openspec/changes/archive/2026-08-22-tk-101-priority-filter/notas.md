@@ -1,0 +1,7 @@
+# Notas — tk-101-priority-filter
+
+> Extensión propia de este repo (NO es parte de OpenSpec). Decisiones tomadas en el camino, qué cambió del plan original y por qué — para el relevo que llegue después.
+
+- 2026-08-20 — El plan original asumía que había que agregar el filtro a `TicketRepository.find_all()` desde cero. En research se encontró que el parámetro `priority` ya estaba soportado en esa capa (se había dejado preparado al escribir el repositorio inicial), así que el trabajo real quedó limitado a conectar router → controller y agregar el control en el front. Se documenta acá para que quede claro que no fue un cambio de scope, fue research que evitó reescribir algo que ya existía.
+- 2026-08-20 — Se decidió que el valor `all` del `<select>` del front no viaje como query param (en vez de mandar `priority=all` y que la API lo ignore) — mantiene el contrato de la API limpio: o se manda una prioridad válida, o no se manda nada.
+- 2026-08-22 — Migrado desde `tickets/TK-101/{research.md,plan.md,notas.md}` (convención propia, reemplazada) a este change real de OpenSpec, generado con la CLI (`openspec new change tk-101-priority-filter`). El contenido de research/plan se tradujo a `proposal.md`/`design.md`/`tasks.md`/`specs/priority-filter/spec.md` sin reescribir el trabajo ya hecho — TK-101 ya estaba implementado y mergeado en `main` antes de esta migración. Este change se archiva inmediatamente después de escribirse, como traza retroactiva.
