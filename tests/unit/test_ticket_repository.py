@@ -54,3 +54,23 @@ def test_count_closed_only_counts_closed_tickets(repository: TicketRepository) -
 
     assert repository.count_closed() == 1
     assert repository.count_total() == 2
+
+
+def test_create_ticket_without_assignee_defaults_to_none(repository: TicketRepository) -> None:
+    ticket = repository.create("No owner yet", "", TicketPriority.LOW)
+
+    assert ticket["assignee"] is None
+
+
+def test_create_ticket_with_assignee(repository: TicketRepository) -> None:
+    ticket = repository.create("Has owner", "", TicketPriority.LOW, assignee="Ana")
+
+    assert ticket["assignee"] == "Ana"
+
+
+def test_assign_updates_assignee(repository: TicketRepository) -> None:
+    ticket = repository.create("Needs owner", "", TicketPriority.LOW)
+
+    assigned = repository.assign(ticket["id"], "Bruno")
+
+    assert assigned["assignee"] == "Bruno"

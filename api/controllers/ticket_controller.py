@@ -16,6 +16,7 @@ def _to_ticket_response(row: sqlite3.Row) -> TicketResponse:
         description=row["description"],
         priority=row["priority"],
         status=row["status"],
+        assignee=row["assignee"],
         created_at=row["created_at"],
     )
 
@@ -34,6 +35,10 @@ class TicketController:
 
     def close(self, ticket_id: int) -> TicketResponse:
         ticket = self._service.close_ticket(ticket_id)
+        return _to_ticket_response(ticket)
+
+    def assign(self, ticket_id: int, assignee: str) -> TicketResponse:
+        ticket = self._service.assign_ticket(ticket_id, assignee)
         return _to_ticket_response(ticket)
 
     def stats(self) -> StatsResponse:

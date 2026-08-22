@@ -9,13 +9,20 @@ class FakeTicketRepository:
         self._tickets: dict[int, dict] = {}
         self._next_id = 1
 
-    def create(self, title: str, description: str, priority: TicketPriority) -> dict:
+    def create(
+        self,
+        title: str,
+        description: str,
+        priority: TicketPriority,
+        assignee: str | None = None,
+    ) -> dict:
         ticket = {
             "id": self._next_id,
             "title": title,
             "description": description,
             "priority": priority.value,
             "status": "open",
+            "assignee": assignee,
             "created_at": "2026-08-20T00:00:00+00:00",
         }
         self._tickets[ticket["id"]] = ticket
@@ -33,6 +40,10 @@ class FakeTicketRepository:
 
     def close(self, ticket_id: int) -> dict:
         self._tickets[ticket_id]["status"] = "closed"
+        return self._tickets[ticket_id]
+
+    def assign(self, ticket_id: int, assignee: str) -> dict:
+        self._tickets[ticket_id]["assignee"] = assignee
         return self._tickets[ticket_id]
 
     def count_total(self) -> int:
@@ -79,3 +90,27 @@ def test_list_tickets_filters_by_priority() -> None:
 
     assert len(results) == 1
     assert results[0]["title"] == "B"
+
+
+def test_create_ticket_stores_assignee() -> None:
+    service = TicketService(FakeTicketRepository())
+
+    ticket = service.create_ticket(TicketCreateRequest(title="Needs owner", assignee="Ana"))
+
+    assert ticket["assignee"] == "Ana"
+
+
+def test_assign_ticket_updates_assignee() -> None:
+    service = TicketService(FakeTicketRepository())
+    ticket = service.create_ticket(TicketCreateRequest(title="Unassigned"))
+
+    updated = service.assign_ticket(ticket["id"], "Bruno")
+
+    assert updated["assignee"] == "Bruno"
+
+
+def test_assign_ticket_raises_when_missing() -> None:
+    service = TicketService(FakeTicketRepository())
+
+    with pytest.raises(TicketNotFoundError):
+        service.assign_ticket(999, "Ana")

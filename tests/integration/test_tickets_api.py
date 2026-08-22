@@ -63,3 +63,36 @@ def test_stats_reports_total(client, auth_headers) -> None:
     stats = response.json()
 
     assert stats["total"] == 2
+
+
+def test_create_ticket_without_assignee_defaults_to_null(client, auth_headers) -> None:
+    response = client.post("/tickets", json={"title": "No owner yet"}, headers=auth_headers)
+
+    assert response.json()["assignee"] is None
+
+
+def test_create_ticket_with_assignee(client, auth_headers) -> None:
+    response = client.post(
+        "/tickets", json={"title": "Has owner", "assignee": "Ana"}, headers=auth_headers
+    )
+
+    assert response.json()["assignee"] == "Ana"
+
+
+def test_assign_ticket_updates_assignee(client, auth_headers) -> None:
+    created = client.post("/tickets", json={"title": "Needs owner"}, headers=auth_headers).json()
+
+    response = client.post(
+        f"/tickets/{created['id']}/assign", json={"assignee": "Bruno"}, headers=auth_headers
+    )
+
+    assert response.status_code == 200
+    assert response.json()["assignee"] == "Bruno"
+
+
+def test_assign_unknown_ticket_returns_404(client, auth_headers) -> None:
+    response = client.post(
+        "/tickets/999/assign", json={"assignee": "Ana"}, headers=auth_headers
+    )
+
+    assert response.status_code == 404

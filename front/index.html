@@ -112,6 +112,9 @@
           <option value="high">High</option>
         </select>
 
+        <label for="assignee">Asignado a (opcional)</label>
+        <input id="assignee" type="text" maxlength="200" placeholder="Sin asignar" />
+
         <button type="submit">Crear ticket</button>
       </form>
     </div>
@@ -193,15 +196,29 @@
         <div class="ticket-desc">${ticket.description || ""}</div>
         <span class="badge ${ticket.priority}">${ticket.priority}</span>
         <span class="badge status-${ticket.status}">${ticket.status}</span>
+        <div class="ticket-desc">Asignado a: ${ticket.assignee || "sin asignar"}</div>
       </div>
     `;
+    const actions = document.createElement("div");
+    actions.style.display = "flex";
+    actions.style.flexDirection = "column";
+    actions.style.gap = "0.4rem";
+    actions.style.alignItems = "flex-end";
+
+    const assignButton = document.createElement("button");
+    assignButton.textContent = "Reasignar";
+    assignButton.className = "secondary";
+    assignButton.onclick = () => reassignTicket(ticket.id, ticket.assignee);
+    actions.appendChild(assignButton);
+
     if (!closed) {
       const closeButton = document.createElement("button");
       closeButton.textContent = "Cerrar";
       closeButton.className = "secondary";
       closeButton.onclick = () => closeTicket(ticket.id);
-      wrapper.appendChild(closeButton);
+      actions.appendChild(closeButton);
     }
+    wrapper.appendChild(actions);
     return wrapper;
   }
 
@@ -241,6 +258,20 @@
     }
   }
 
+  async function reassignTicket(id, currentAssignee) {
+    const assignee = window.prompt("Asignar a:", currentAssignee || "");
+    if (!assignee) return;
+    try {
+      await apiFetch(`/tickets/${id}/assign`, {
+        method: "POST",
+        body: JSON.stringify({ assignee }),
+      });
+      await refresh();
+    } catch (error) {
+      showError(error.message);
+    }
+  }
+
   $("create-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     hideError();
@@ -251,6 +282,7 @@
           title: $("title").value,
           description: $("description").value,
           priority: $("priority").value,
+          assignee: $("assignee").value || null,
         }),
       });
       event.target.reset();

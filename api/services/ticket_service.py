@@ -13,7 +13,9 @@ class TicketService:
         self._repository = repository
 
     def create_ticket(self, request: TicketCreateRequest) -> sqlite3.Row:
-        return self._repository.create(request.title, request.description, request.priority)
+        return self._repository.create(
+            request.title, request.description, request.priority, request.assignee
+        )
 
     def list_tickets(self, priority: TicketPriority | None = None) -> list[sqlite3.Row]:
         return self._repository.find_all(priority)
@@ -23,6 +25,12 @@ class TicketService:
         if ticket is None:
             raise TicketNotFoundError(f"Ticket {ticket_id} not found")
         return self._repository.close(ticket_id)
+
+    def assign_ticket(self, ticket_id: int, assignee: str) -> sqlite3.Row:
+        ticket = self._repository.find_by_id(ticket_id)
+        if ticket is None:
+            raise TicketNotFoundError(f"Ticket {ticket_id} not found")
+        return self._repository.assign(ticket_id, assignee)
 
     def get_stats(self) -> StatsResponse:
         return StatsResponse(

@@ -42,16 +42,15 @@ tests/
 
 ## 4. Dominio: Ticket
 
-Campos en `main` (antes de TK-103): `id`, `title`, `description`, `priority` (`low`/`medium`/`high`), `status` (`open`/`closed`), `created_at`.
+Campos (rama `reference/tk-103`, con TK-103 ya resuelto): `id`, `title`, `description`, `priority` (`low`/`medium`/`high`), `status` (`open`/`closed`), `assignee` (`str | None`), `created_at`.
 
-`assignee` NO existe todavía en `main` — es el alcance de TK-103, resuelto en la rama `reference/tk-103`.
+`assignee` se puede fijar al crear el ticket (`POST /tickets`) o cambiar después vía `POST /tickets/{id}/assign`. En `main` este campo todavía no existe — este es precisamente el alcance de TK-103.
 
 ## 5. Lo que NO existe (Límites Duros contra Alucinaciones)
 
 - NO hay ORM (SQLAlchemy, Prisma, etc.) — SQL crudo vía `sqlite3` en `api/repositories/`.
 - NO hay Postgres, Redis, ni ninguna otra base de datos — solo SQLite local.
-- NO hay autenticación de usuarios ni roles — solo `X-API-Key` fijo por variable de entorno.
+- NO hay autenticación de usuarios ni roles — solo `X-API-Key` fijo por variable de entorno. `assignee` es un texto libre, no una referencia a un usuario real.
 - NO hay multi-tenant.
 - NO hay CI/CD, IaC ni deploy a la nube — el proyecto corre local (Python directo o Docker Compose).
 - NO hay build step en el front (nada de React/Vite/webpack).
-- NO hay campo `assignee` en `main` (ver arriba).

@@ -9,7 +9,7 @@
 | **Ticket** | Unidad de trabajo interna: título, descripción, prioridad y estado. | Entidad central del sistema. |
 | **Priority (prioridad)** | `low` \| `medium` \| `high`. Fijada al crear el ticket, filtrable en el listado (`GET /tickets?priority=`). | `api/schemas/ticket.py::TicketPriority` |
 | **Status (estado)** | `open` \| `closed`. Un ticket nace `open`, se cierra vía `POST /tickets/{id}/close`. No hay estados intermedios en el MVP. | `api/schemas/ticket.py::TicketStatus` |
-| **Assignee** | Persona responsable del ticket. NO existe en `main` — se agrega en TK-103 (rama `reference/tk-103`). | `tickets/TK-103/` |
+| **Assignee** | Persona responsable del ticket (texto libre, no referencia a un usuario). Se fija al crear o vía `POST /tickets/{id}/assign`. Resuelto en esta rama (TK-103); no existe todavía en `main`. | `tickets/TK-103/` |
 | **Stats** | Conteo de tickets por estado, expuesto en `GET /stats` (`total`, `open`, `closed`). | `api/routes/stats.py` |
 | **X-API-Key** | Header de autenticación simple; se valida contra la variable de entorno `API_KEY`. No hay usuarios ni sesiones. | `api/dependencies.py::require_api_key` |
 | **DTO** | Data Transfer Object — modelo Pydantic que valida entrada/salida de la API. | `api/schemas/` |

@@ -8,14 +8,20 @@ class TicketRepository:
     def __init__(self, connection: sqlite3.Connection) -> None:
         self._connection = connection
 
-    def create(self, title: str, description: str, priority: TicketPriority) -> sqlite3.Row:
+    def create(
+        self,
+        title: str,
+        description: str,
+        priority: TicketPriority,
+        assignee: str | None = None,
+    ) -> sqlite3.Row:
         created_at = datetime.now(timezone.utc).isoformat()
         cursor = self._connection.execute(
             """
-            INSERT INTO tickets (title, description, priority, status, created_at)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO tickets (title, description, priority, status, assignee, created_at)
+            VALUES (?, ?, ?, ?, ?, ?)
             """,
-            (title, description, priority.value, TicketStatus.OPEN.value, created_at),
+            (title, description, priority.value, TicketStatus.OPEN.value, assignee, created_at),
         )
         return self.find_by_id(cursor.lastrowid)
 
@@ -36,6 +42,12 @@ class TicketRepository:
         self._connection.execute(
             "UPDATE tickets SET status = ? WHERE id = ?",
             (TicketStatus.CLOSED.value, ticket_id),
+        )
+        return self.find_by_id(ticket_id)
+
+    def assign(self, ticket_id: int, assignee: str) -> sqlite3.Row | None:
+        self._connection.execute(
+            "UPDATE tickets SET assignee = ? WHERE id = ?", (assignee, ticket_id)
         )
         return self.find_by_id(ticket_id)
 

@@ -4,7 +4,12 @@ from fastapi import APIRouter, Depends
 
 from api.controllers.ticket_controller import TicketController
 from api.dependencies import get_ticket_controller, require_api_key
-from api.schemas.ticket import TicketCreateRequest, TicketPriority, TicketResponse
+from api.schemas.ticket import (
+    TicketAssignRequest,
+    TicketCreateRequest,
+    TicketPriority,
+    TicketResponse,
+)
 
 router = APIRouter(prefix="/tickets", tags=["tickets"], dependencies=[Depends(require_api_key)])
 
@@ -31,3 +36,12 @@ def close_ticket(
     controller: Annotated[TicketController, Depends(get_ticket_controller)],
 ) -> TicketResponse:
     return controller.close(ticket_id)
+
+
+@router.post("/{ticket_id}/assign", response_model=TicketResponse)
+def assign_ticket(
+    ticket_id: int,
+    request: TicketAssignRequest,
+    controller: Annotated[TicketController, Depends(get_ticket_controller)],
+) -> TicketResponse:
+    return controller.assign(ticket_id, request.assignee)

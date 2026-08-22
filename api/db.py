@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     description TEXT NOT NULL DEFAULT '',
     priority TEXT NOT NULL DEFAULT 'medium',
     status TEXT NOT NULL DEFAULT 'open',
+    assignee TEXT,
     created_at TEXT NOT NULL
 );
 """
