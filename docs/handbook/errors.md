@@ -1,6 +1,6 @@
 # Catálogo de Errores Conocidos y Troubleshooting
 
-> Base de conocimiento de errores comunes, síntomas, causa raíz y soluciones probadas. Movido desde `docs/errors.md` (ver nota de deprecación ahí) como parte de la reestructuración a `docs/handbook/`.
+> Base de conocimiento de errores comunes, síntomas, causa raíz y soluciones probadas. Consolidado en `docs/handbook/` junto con el resto de la documentación del proyecto.
 
 ## 1. `401 Unauthorized` en cualquier endpoint de tickets/stats
 

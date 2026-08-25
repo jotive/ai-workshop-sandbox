@@ -38,4 +38,4 @@ Levanta la API en `:8000` y el front (servido por nginx) en `:8080`.
 | Ver status de un change de OpenSpec | `openspec status --change <ID>` |
 | Validar un change antes de darlo por terminado | `openspec validate <ID> --strict` |
 
-Ver `docs/architecture.md` para el detalle de stack y estructura de carpetas.
+Ver `docs/handbook/architecture.md` para el detalle de stack y estructura de carpetas.

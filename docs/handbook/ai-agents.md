@@ -25,6 +25,15 @@ Terminal 1: claude   → Verify (revisión de diff + openspec validate --strict 
 
 Regla dura: durante Implement, el agente NO debe modificar `proposal.md`, `design.md` ni `specs/` del change en curso — solo `tasks.md` (checkboxes) y código real. Ante ambigüedad, no asume: documenta el bloqueo y espera resolución humana (o de Claude en fase Plan) antes de seguir.
 
+## Cuándo saltarse fases (explícito, no dogma)
+
+RPI no es un martillo. Regla rápida de este repo:
+
+- **Research** — sáltalo si el bug/feature es chico y el patrón ya está en un ADR de `docs/adr/` (ej. capas `routes → controllers → services → repositories`, SQLite sin ORM). Hazlo si toca código que no entendés o cruza módulos.
+- **Plan** — casi nunca se salta: es donde corregir sale barato, antes de generar código. Saltalo solo en cambios de un archivo (typo, config).
+- **Implement** — es un loop: si el plan deja de encajar a mitad de tarea, no se fuerza — se documenta (`notas.md`/`BLOCKED.md`) y se vuelve a Plan. Eso es el proceso funcionando, no un fracaso.
+- **Verify** — nunca se salta. Revisar el diff línea a línea, no solo correr `pytest`/`openspec validate`. Saltarse esto fue el error que el propio autor de RPI corrigió públicamente: meses de código sin entender en producción, todo se acaba rompiendo.
+
 ## Reglas duras específicas de este repo
 
 - API en `api/`, capas separadas: `routes` → `controllers` → `services` → `repositories`. No saltarse capas.

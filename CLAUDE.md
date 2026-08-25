@@ -8,19 +8,16 @@ Mini sistema de tickets internos (crear, listar, filtrar, cerrar) con API en Fas
 
 ## 2. Estructura de Memoria Persistente (`docs/`)
 
-- **Architecture** (`docs/architecture.md`): Stack real, estructura de carpetas, flujos de datos y lo que NO existe.
-- **Conventions** (`docs/conventions.md`): Reglas de estilo, naming semántico, patrones aceptados y estrategia de tests.
-- **Decisions** (`docs/adr/`): ADRs con decisiones aceptadas, razones, opciones descartadas y estado.
-- **Glossary** (`docs/glossary.md`): Términos de dominio de tickets usados en este repo.
+- **Handbook** (`docs/handbook/`): toda la documentación consolidada, se carga bajo demanda — `architecture.md`, `conventions.md`, `decisions.md`, `glossary.md`, `workflow.md`, `development.md`, `git-workflow.md`, `testing.md`, `releases.md`, `errors.md`, `ai-agents.md`. Índice en `docs/HANDBOOK.md`.
+- **Decisions** (`docs/adr/`): ADRs con decisiones aceptadas, razones, opciones descartadas y estado (detalle largo; `docs/handbook/decisions.md` es el índice rápido).
 - **Onboarding** (`docs/onboarding.md`): cómo arranca alguien nuevo (humano o agente) en este repo.
-- **Handbook** (`docs/handbook/`): contenido operativo bajo demanda — development, git-workflow, testing, releases, errors, ai-agents. Índice en `docs/HANDBOOK.md`. `docs/workflow.md` y `docs/errors.md` son stubs de deprecación que apuntan acá.
 - **Roadmap** (`docs/ROADMAP.md`): ahora · siguiente · después (con bloqueador) · hecho.
 
 ## 3. Reglas Duras de Ejecución
 
 1. **Spec Antes del Código**: cada change vive en `openspec/changes/<ID>/{proposal.md, design.md, tasks.md, specs/}` — se revisan ANTES de modificar código (convención `tickets/TK-XXX/` reemplazada, ver `tickets/README.md`). Ver `openspec/changes/archive/2026-08-22-tk-101-priority-filter/` como ejemplo de ciclo completo ya recorrido.
 2. **Cero Comentarios de WHAT**: solo comentar el WHY cuando la razón técnica no sea obvia.
-3. **No relitigar ADRs**: respetar las decisiones en `docs/adr/` (ej. SQLite en vez de Postgres, repository pattern sin ORM).
+3. **No relitigar ADRs**: respetar las decisiones en `docs/adr/` (ej. SQLite en vez de Postgres, repository pattern sin ORM; índice rápido en `docs/handbook/decisions.md`).
 4. **Verificación Empírica**: todo cambio debe pasar `pytest` en verde antes de dar la tarea por completada.
 5. **No sobre-construir**: este proyecto es MVP a propósito. No agregar multi-tenant, roles, rate limiting real, CI/CD ni deploy — está fuera de scope salvo que un change lo pida explícitamente.
 

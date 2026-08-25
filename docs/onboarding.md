@@ -6,7 +6,7 @@
 
 1. `README.md` — qué es el proyecto y cómo levantarlo.
 2. `AGENTS.md` / `CLAUDE.md` — reglas duras de este repo (capas, sin ORM, sin build step en el front).
-3. `docs/architecture.md` — stack real y lo que NO existe (para no alucinar dependencias).
+3. `docs/handbook/architecture.md` — stack real y lo que NO existe (para no alucinar dependencias).
 
 ## 2. Primeros comandos
 
@@ -42,9 +42,9 @@ No mires las ramas `reference/tk-102` / `reference/tk-103` antes de intentarlo �
 
 | Necesito... | Mirar |
 |---|---|
-| Entender una capa (routes/controllers/services/repositories) | `docs/architecture.md` |
-| Saber si algo ya se decidió (SQLite sin ORM, etc.) | `docs/adr/` |
-| Un término de dominio (`assignee`, `stats`, etc.) | `docs/glossary.md` |
+| Entender una capa (routes/controllers/services/repositories) | `docs/handbook/architecture.md` |
+| Saber si algo ya se decidió (SQLite sin ORM, etc.) | `docs/adr/` (índice rápido: `docs/handbook/decisions.md`) |
+| Un término de dominio (`assignee`, `stats`, etc.) | `docs/handbook/glossary.md` |
 | Cómo correr tests / qué cubrir | `docs/handbook/testing.md` |
 | Un error conocido | `docs/handbook/errors.md` |
 | Reglas para agentes de código en este repo | `docs/handbook/ai-agents.md` |

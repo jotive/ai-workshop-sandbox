@@ -12,11 +12,8 @@
 
 Toda la especificación técnica y de negocio vive en `docs/` en Markdown:
 
-- **Arquitectura (`docs/architecture.md`)**: Stack, estructura de carpetas, flujos de datos y lo que NO existe.
-- **Convenciones (`docs/conventions.md`)**: Reglas de estilo, naming semántico, patrones aceptados y estrategia de tests.
-- **Decisiones / ADRs (`docs/adr/`)**: Decisiones de arquitectura aceptadas, razones, opciones descartadas y estado.
-- **Glosario (`docs/glossary.md`)**: Términos del dominio de tickets usados en este repo.
-- **Handbook (`docs/handbook/`)**: contenido operativo que se carga bajo demanda — `development.md`, `git-workflow.md`, `testing.md`, `releases.md`, `errors.md`, `ai-agents.md`. Índice en `docs/HANDBOOK.md`. `docs/workflow.md` y `docs/errors.md` quedaron como stubs de deprecación apuntando acá.
+- **Decisiones / ADRs (`docs/adr/`)**: Decisiones de arquitectura aceptadas, razones, opciones descartadas y estado (detalle largo; `docs/handbook/decisions.md` es el índice rápido).
+- **Handbook (`docs/handbook/`)**: toda la documentación consolidada, se carga bajo demanda — `architecture.md`, `conventions.md`, `decisions.md`, `glossary.md`, `workflow.md`, `development.md`, `git-workflow.md`, `testing.md`, `releases.md`, `errors.md`, `ai-agents.md`. Índice en `docs/HANDBOOK.md`.
 
 ## 2. Protocolo de Trabajo por Change (RPI + SDD, con OpenSpec real)
 
@@ -33,6 +30,6 @@ Este repo usa `@fission-ai/openspec` real — la convención vieja en `tickets/<
 - API en `api/`, capas separadas: `routes` → `controllers` → `services` → `repositories`. No saltarse capas.
 - DTOs de entrada/salida con Pydantic en `api/schemas/`. Nada de dicts sueltos cruzando capas.
 - Persistencia: SQLite vía `sqlite3` estándar, sin ORM (ver `docs/adr/0002-sqlite-sin-orm.md`). No agregar SQLAlchemy/Postgres sin discutirlo primero.
-- Auth simple por header `X-API-Key` contra `docs/architecture.md` — no hay usuarios ni roles.
+- Auth simple por header `X-API-Key` contra `docs/handbook/architecture.md` — no hay usuarios ni roles.
 - Tests con `pytest`: unitarios para `services`/`repositories`, integración para endpoints con `TestClient`.
 - Front en `front/index.html`: HTML+JS vanilla sin build step. No introducir React/Vite/npm para esto.

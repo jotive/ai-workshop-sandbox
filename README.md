@@ -45,7 +45,7 @@ pytest
 
 ## Estructura
 
-Ver `docs/architecture.md` para el detalle completo del stack y las capas (`routes` → `controllers` → `services` → `repositories`). Ver `CLAUDE.md` / `AGENTS.md` para el contexto que consumen los agentes de IA, `docs/onboarding.md` para arrancar de cero, y `openspec/changes/` para los changes de práctica de la jornada (`tk-101-priority-filter` archivado, `tk-102-stats-bug` y `tk-103-assignee` abiertos) — reemplaza la vieja carpeta `tickets/` (ver `tickets/README.md`).
+Ver `docs/handbook/architecture.md` para el detalle completo del stack y las capas (`routes` → `controllers` → `services` → `repositories`). Ver `CLAUDE.md` / `AGENTS.md` para el contexto que consumen los agentes de IA, `docs/onboarding.md` para arrancar de cero, y `openspec/changes/` para los changes de práctica de la jornada (`tk-101-priority-filter` archivado, `tk-102-stats-bug` y `tk-103-assignee` abiertos) — reemplaza la vieja carpeta `tickets/` (ver `tickets/README.md`).
 
 ## Documentación
 

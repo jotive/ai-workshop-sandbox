@@ -2,31 +2,50 @@ schema: spec-driven
 
 # Project context (optional)
 # This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Producto: ai-workshop-sandbox. Mini sistema de tickets internos (crear,
+  listar, filtrar, cerrar) con API en FastAPI, front vanilla y persistencia
+  en SQLite. Es el sandbox de la jornada de capacitacion de desarrollo
+  agentico -- se usa para practicar el ciclo Research -> Plan -> Implement ->
+  Verify sobre codigo real, no sobre un tutorial.
+
+  Tech stack: FastAPI, SQLite via sqlite3 estandar (sin ORM), Pydantic para
+  DTOs, front HTML+JS vanilla sin build step, pytest.
+
+  Convenciones: codigo e identificadores en INGLES; sin comentarios (naming
+  autoexplicativo); rama main; git por SSH; sin Co-Authored-By en commits.
 
 # Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  design:
+    - Particiona el plan en vertical slices desplegables (una funcionalidad
+      end-to-end -- backend + frontend + tests juntos), NUNCA por capa de
+      arquitectura (todo el backend, despues todo el frontend, despues los
+      tests). Cada slice debe poder llegar a produccion de forma independiente.
+    - Marca que va como regla dura (codigo/ADR existente) vs que es decision
+      nueva de este change, y por que se descarto cada alternativa.
+    - Respeta las capas routes -> controllers -> services -> repositories. No
+      saltarse capas ni cruzar SQLAlchemy/Postgres sin discutirlo primero.
+  proposal:
+    - Research formal es OPCIONAL, no un dogma. Usalo cuando la tarea cruza
+      modulos desconocidos o hay ambiguedad real sobre el "que". Para bugs o
+      features chicas con patron ya cubierto por un ADR existente, saltalo e
+      ir directo a /opsx:propose.
+    - Incluir siempre una seccion Non-goals.
+  tasks:
+    - Ordena tasks.md por vertical slice, nunca por capa.
+    - Cada tarea con criterio de aceptacion verificable y su test asociado.
 
 # Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+operations:
+  apply:
+    guidance:
+      - Si algo del plan deja de tener sentido durante Implement, no lo
+        fuerces ni asumas: documenta en notas.md o BLOCKED.md y detente ahi.
+        RPI es un loop, no una linea recta -- volver a Plan es el flujo
+        esperado, no un fracaso del plan.
+  archive:
+    guidance:
+      - Verify siempre revisa el diff linea a linea ademas de correr pytest
+        y openspec validate --strict. Esta fase NO es opcional aunque
+        Research y Plan se hayan saltado.
